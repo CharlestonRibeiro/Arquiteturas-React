@@ -17,6 +17,8 @@ Camada responsável pelo processamento de dados: a transcrição de dados brutos
 - **repositories:** implementam as interfaces das quais dependem os [usecases](#domain);
 - **sources:** interfaces de recursos externos que serão implementadas na camada [external](#external).
 
+> Quando um usecase depende de mais de uma fonte de dado (múltiplos `sources`), a repository deve buscá-las em paralelo (`Promise.all`), nunca em sequência — evita waterfalls desnecessários.
+
 ### Domain
 Domínio da aplicação, onde se encontram as abstrações de todos os cenários reais que ela abrange:
 - **errors:** erros disfuncionais, relativos a problemas de lógica interna às regras de negócio;
@@ -35,7 +37,7 @@ Todos os recursos de persistência externos à aplicação:
 Funcionalidades da aplicação, onde individualmente se encontram:
 - **components:** componentes visuais utilizados apenas pelo módulo referido;
 - **views:** subpáginas do módulo (blocos de navegação internos);
-- **`<feature>Store.ts`:** store Zustand que realiza o gerenciamento de estado do módulo e a chamada dos [usecases](#domain);
+- **`<feature>Store.ts`:** store Zustand que realiza o gerenciamento de estado do módulo e a chamada dos [usecases](#domain). Componentes devem ler a store por seletor (`use<Feature>Store((s) => s.value)`), nunca a store inteira — evita re-render em mudanças de campos não utilizados pelo componente;
 - **`<Feature>Page.tsx`:** página raiz do módulo, para onde se refere a raiz da navegação do módulo referido;
 - **`use<Feature>.ts`:** hook que conecta a store ao componente;
 - **`<feature>.routes.tsx`:** definição das (sub)rotas do módulo.

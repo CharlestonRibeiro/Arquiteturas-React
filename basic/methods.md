@@ -57,16 +57,17 @@ function useUser(id?: string) {
 }
 
 // good code
-function useUser(id?: string) {
+function useUser(id: string | undefined, repository: UserRepositoryInterface) {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     if (!id) return;
-    fetchUser(id).then(setUser);
-  }, [id]);
+    repository.getById(id).then(setUser);
+  }, [id, repository]);
 
   return user;
 }
 ```
+> A busca em si delega para a `repository` (nunca `fetch` direto no hook — ver [Pacotes](/basic/packages.md#data-fetching-e-cache)); o exemplo acima ilustra apenas a regra de hooks condicionais.
 
 [<= Voltar](/README.md)

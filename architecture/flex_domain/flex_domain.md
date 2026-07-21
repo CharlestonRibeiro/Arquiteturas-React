@@ -11,6 +11,8 @@ DATA - INTERACTOR - UI
 ### DATA
 Dá suporte à camada **Interactor**, implementando suas interfaces. Adapta dados externos para cumprir os contratos do domínio. Nessa camada implementamos datasources e repositories que podem depender de dados externos (API, cache local). Deve conter tudo aquilo que tem grande chance de mudar sem que o programador precise mexer na lógica interna do projeto.
 
+> Quando um módulo depende de mais de uma fonte de dado, o repository deve buscá-las em paralelo (`Promise.all`), nunca em sequência — evita waterfalls desnecessários.
+
 ### INTERACTOR
 Hospeda as regras de negócio da aplicação e o estado. O núcleo é Dart-puro-equivalente: TypeScript puro, sem imports de React, de client HTTP ou de qualquer detalhe de framework. O repository aqui é só a interface (abstração); a implementação fica na camada mais baixa (DATA).
 
@@ -58,7 +60,7 @@ Componentes centrais do código, compartilhados entre os módulos:
 
 #### interactor/
 - **store/**
-  `exampleStore.ts`: store Zustand — componente de lógica de negócios para o gerenciamento de estado, equivalente ao `*_bloc.dart`.
+  `exampleStore.ts`: store Zustand — componente de lógica de negócios para o gerenciamento de estado, equivalente ao `*_bloc.dart`. Componentes devem ler a store por seletor (`useExampleStore((s) => s.value)`), nunca a store inteira — evita re-render em mudanças de campos não utilizados pelo componente.
 - **entities/**
   `exampleEntity.ts`: entidade de domínio que representa o resultado.
 - **errors/**

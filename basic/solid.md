@@ -5,12 +5,12 @@ Toda a arquitetura do presente projeto se baseia nos princípios do SOLID:
 Um módulo/hook/componente deve ter apenas uma razão para mudar, significando que ele deve ter apenas uma responsabilidade.
 ```ts
 // code smell
-function useUser(id: string) {
+function useUser(id: string, repository: UserRepositoryInterface) {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    fetch(`/api/users/${id}`).then((r) => r.json()).then(setUser);
-  }, [id]);
+    repository.getById(id).then(setUser);
+  }, [id, repository]);
 
   function formatUserName() { ... }
   function sendConfirmationEmail() { ... }
@@ -20,12 +20,12 @@ function useUser(id: string) {
 ```
 ```ts
 // good code
-function useUser(id: string) {
+function useUser(id: string, repository: UserRepositoryInterface) {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    fetch(`/api/users/${id}`).then((r) => r.json()).then(setUser);
-  }, [id]);
+    repository.getById(id).then(setUser);
+  }, [id, repository]);
 
   return user;
 }

@@ -31,6 +31,8 @@ Esta arquitetura é especialmente útil para projetos que requerem uma separaç�
 
 A arquitetura ``MVC+R`` é uma abordagem simples que consome dados de uma API e os exibe na tela com o mínimo de processamento. Em um fluxo básico, o dado vem do repositório, segue para o hook e é então apresentado na página. Esta arquitetura é ideal para projetos que necessitam de uma rápida entrega de dados ao usuário. Esta arquitetura será ajustada especificamente para o seu aplicativo.
 
+> A pasta `real_cases/` é reservada para exemplos reais de projetos que adotaram uma dessas arquiteturas, ainda não populada.
+
 ---
 
 **Recomendação para Projetos**:

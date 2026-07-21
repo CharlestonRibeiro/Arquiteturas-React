@@ -14,6 +14,8 @@ Para aprimorar a flexibilidade e a independência de pacotes externos, o projeto
 
 As rotas são definidas de forma abstrata e centralizada na pasta `routes`, na camada core, permitindo uma referência clara e consistente aos caminhos utilizados na aplicação.
 
+Cada módulo deve ser carregado via `React.lazy`/dynamic import na definição da rota, para que o bundle seja dividido por módulo em vez de carregado inteiro no bundle inicial.
+
 ### Requisições HTTP
 As requisições HTTP são feitas através do package ***.
 
